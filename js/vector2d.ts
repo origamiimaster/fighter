@@ -1,6 +1,6 @@
 class Vector2D {
-    x;
-    y;
+    x: number;
+    y: number;
     constructor(x: number, y: number) {
         this.x = x;
         this.y = y;
@@ -22,3 +22,4 @@ class Vector2D {
         return this.x * vector.x + this.y + vector.y;
     }
 }
+export { Vector2D }

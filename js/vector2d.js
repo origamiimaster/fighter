@@ -20,3 +20,4 @@ class Vector2D {
         return this.x * vector.x + this.y + vector.y;
     }
 }
+export { Vector2D };
