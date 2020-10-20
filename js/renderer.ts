@@ -63,6 +63,9 @@ class RGBA {
         this.g = Math.min((this.g * (1 - color.a)) + (color.g * color.a), 255)
         this.b = Math.min((this.b * (1 - color.a)) + (color.b * color.a), 255)
     }
+    static random(): RGBA{
+        return new RGBA(Math.floor(Math.random()*255),Math.floor(Math.random()*255),Math.floor(Math.random()*255),1)
+    }
 }
 class Screen {
     self: Array<Array<RGBA>> = []
@@ -97,7 +100,7 @@ class Screen {
     draw(object: Object2D) {
         for (let x_scene = object.x, x_object = 0; x_scene < this.width && x_object < object.width; x_object++, x_scene++) {
             for (let y_scene = object.y, y_object = 0;y_scene < this.height && y_object < object.height; y_object++, y_scene++) {
-                if (0 <= x_scene && 0 <= x_object  && 0 <= y_scene && 0 <= y_object){
+                if (0 <= x_scene && 0 <= x_object  && 0 <= y_scene && 0 <= y_object && object.points[x_object][y_object].a != 0){
                     this.self[x_scene][y_scene].write(object.points[x_object][y_object])
                 }
             }

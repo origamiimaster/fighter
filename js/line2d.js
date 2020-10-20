@@ -3,7 +3,7 @@ class Line {
         this.point1 = a;
         this.point2 = b;
     }
-    on(x) {
+    incident(x) {
         return this.slope() == (this.point1.y - x.y) / (this.point1.x - x.x);
     }
     intersection(x) {
@@ -22,4 +22,9 @@ class Line {
         }
     }
 }
-export { Line };
+class LineSegment extends Line {
+    constructor(a, b) {
+        super(a, b);
+    }
+}
+export { Line, LineSegment };

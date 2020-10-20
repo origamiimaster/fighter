@@ -1,11 +1,20 @@
-// import Renderer from "./js/renderer.js"
 import { Scene } from "./js/scene.js"
-import { Rectangle,Circle } from "./js/object2d.js"
+import { Rectangle, Circle } from "./js/shapes.js"
+import { RGBA } from "./js/renderer.js"
+
 let scene = new Scene(document.getElementById("test"))
-let rect = new Circle(15)//Rectangle(2, 4)
+let rect = new Circle(5)
+rect.x += 10
+rect.y += 10
 console.log(rect)
 scene.add(rect)
+scene.add(new Circle(5))
 
+// document.addEventListener('click',()=>{
+//     let color = RGBA.random()
+//     // console.log(color)
+//     rect.changeColor(color)
+// })
 setInterval(() => {
     scene.renderer.render()
     scene.draw()
