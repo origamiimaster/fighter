@@ -4,7 +4,7 @@ import { RGBA } from "./renderer.js"
 
 class Rectangle extends Object2D {
     collider: RectangleCollider
-    constructor(height: number, width: number) {
+    constructor(width: number, height: number) {
         super()
         this.type = "rectangle"
         this.width = width

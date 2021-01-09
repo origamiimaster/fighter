@@ -2,7 +2,7 @@ import { CircleCollider, CompoundCollider, RectangleCollider } from "./collision
 import { Object2D } from "./object2d.js";
 import { RGBA } from "./renderer.js";
 class Rectangle extends Object2D {
-    constructor(height, width) {
+    constructor(width, height) {
         super();
         this.type = "rectangle";
         this.width = width;
