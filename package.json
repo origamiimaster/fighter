@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/origamiimaster/fighter/issues"
   },
-  "homepage": "https://github.com/origamiimaster/fighter#readme"
+  "homepage": "https://github.com/origamiimaster/fighter#readme",
+  "dependencies": {
+    "@types/node": "^14.14.9"
+  }
 }

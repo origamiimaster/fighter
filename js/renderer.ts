@@ -6,15 +6,16 @@ class Renderer {
     height: number
     width: number
     constructor(element: HTMLElement, height: number, width: number) {
+        let scale = 2
         this.height = height
         this.width = width
         this.screen = new Screen(width, height);
         this.canvas = document.createElement("canvas")
-        this.canvas.height = height * 10
-        this.canvas.width = width * 10
+        this.canvas.height = height * scale
+        this.canvas.width = width * scale
         element.appendChild(this.canvas)
         this.context = this.canvas.getContext("2d")
-        this.context.scale(10, 10)
+        this.context.scale(scale, scale)
 
     }
     clear() {

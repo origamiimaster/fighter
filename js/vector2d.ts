@@ -23,3 +23,5 @@ class Vector2D {
     }
 }
 export { Vector2D }
+
+exports.Vector2D = Vector2D

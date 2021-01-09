@@ -1,8 +1,10 @@
 import { Line, LineSegment } from "./line2d.js"
 import { RGBA } from "./renderer.js"
 import { Vector2D } from "./vector2d.js"
-import { CircleCollider } from "./collision.js"
+import { CircleCollider, CollisionObject } from "./collision.js"
 class Object2D {
+    collider: CollisionObject
+    isColliding: boolean
     type: string
     width: number
     height: number
@@ -12,6 +14,15 @@ class Object2D {
     constructor() {
         this.x = 0
         this.y = 0
+    }
+    changeColor(color: RGBA) {
+        for (let x = 0; x < this.points.length; x++) {
+            for (let y = 0; y < this.points[x].length; y++) {
+                if (this.points[x][y].a != 0) {
+                    this.points[x][y].set(color)
+                }
+            }
+        }
     }
 }
 class Polygon{

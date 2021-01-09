@@ -5,6 +5,15 @@ class Object2D {
         this.x = 0;
         this.y = 0;
     }
+    changeColor(color) {
+        for (let x = 0; x < this.points.length; x++) {
+            for (let y = 0; y < this.points[x].length; y++) {
+                if (this.points[x][y].a != 0) {
+                    this.points[x][y].set(color);
+                }
+            }
+        }
+    }
 }
 class Polygon {
     constructor(points) {
