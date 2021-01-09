@@ -15,6 +15,9 @@ class Rectangle extends Object2D {
             }
         }
     }
+    toString() {
+        return `R:${this.x},${this.y},${this.width},${this.height}`;
+    }
 }
 class Circle extends Object2D {
     constructor(r) {
@@ -36,6 +39,9 @@ class Circle extends Object2D {
             }
         }
     }
+    toString() {
+        return `C:${this.x},${this.y},${this.radius}`;
+    }
 }
 class CompoundShape extends Object2D {
     constructor(shapes) {
@@ -53,7 +59,6 @@ class CompoundShape extends Object2D {
             }
         }
         shapes.forEach((thing) => {
-            // console.log(thing)
             let shape = thing[0];
             let x = thing[1];
             let y = thing[2];
@@ -76,6 +81,12 @@ class CompoundShape extends Object2D {
             this.objects.push(shape);
         });
         this.collider = new CompoundCollider(this);
+    }
+    toString() {
+        let result = `A:${this.x},${this.y};`;
+        this.objects.forEach(object => {
+            result += object.toString() + ";";
+        });
     }
 }
 export { Rectangle, Circle, CompoundShape };
