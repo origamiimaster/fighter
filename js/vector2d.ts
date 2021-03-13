@@ -13,15 +13,31 @@ class Vector2D {
         this.y *= scalar;
         return this;
     }
-    add(vector: Vector2D): Vector2D {
-        this.x += vector.x;
-        this.y += vector.y;
-        return this;
+    plus(vector: Vector2D): Vector2D {
+        let newX = this.x + vector.x;
+        let newY = this.y + vector.y;
+        return new Vector2D(newX, newY);
+    }
+    add(vector: Vector2D) {
+        this.x += vector.x
+        this.y += vector.y
+    }
+    subtract(vector: Vector2D){
+        return this.plus(vector.multiply(-1))
     }
     dot(vector: Vector2D): number {
         return this.x * vector.x + this.y + vector.y;
     }
+    unit(): Vector2D {
+        let newX = this.x
+        let newY = this.y
+        let mag = this.magnitude()
+        return new Vector2D(newX / mag, newY / mag)
+    }
+    magnitude(): number {
+        return this.distanceTo(new Vector2D(0, 0))
+    }
 }
 export { Vector2D }
 
-exports.Vector2D = Vector2D
+// exports.Vector2D = Vector2D

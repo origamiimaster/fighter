@@ -1,0 +1,71 @@
+<html>
+
+<body>
+
+    <script type="module">
+        import { Scene } from "./js/scene.js"
+        import { Rectangle, CompoundShape } from "./js/shapes.js"
+        let scene = new Scene(document.getElementById("test"))
+        let self = new CompoundShape([[new Rectangle(10, 20), 5, 5], [new Rectangle(20, 10), 0, 0]])
+
+        scene.add(self)
+        let Down = false
+        let Up = false
+        let Left = false
+        let Right = false
+        setInterval(() => {
+            if (Down) {
+                self.y += 1
+            }
+            if (Up) {
+                self.y -= 1
+            }
+            if (Left) {
+                self.x -= 1
+            }
+            if (Right) {
+                self.x += 1
+            }
+
+            scene.renderer.render()
+            scene.draw()
+        }, 10)
+
+        document.addEventListener('keydown', e => {
+            switch (e.key) {
+                case 'ArrowDown':
+                    Down = true
+                    break
+                case 'ArrowUp':
+                    Up = true
+                    break
+                case 'ArrowLeft':
+                    Left = true
+                    break
+                case 'ArrowRight':
+                    Right = true
+                    break
+            }
+        })
+        document.addEventListener('keyup', e => {
+            switch (e.key) {
+                case 'ArrowDown':
+                    Down = false
+                    break
+                case 'ArrowUp':
+                    Up = false
+                    break
+                case 'ArrowLeft':
+                    Left = false
+                    break
+                case 'ArrowRight':
+                    Right = false
+                    break
+            }
+        })
+    </script>
+    <test id="test">testing</test>
+
+</body>
+
+</html>

@@ -1,9 +1,15 @@
 import { LineSegment } from "./line2d.js";
+import { Vector2D } from "./vector2d.js";
 class Object2D {
     constructor() {
         this.points = [];
         this.x = 0;
         this.y = 0;
+        this.mass = 1;
+        this.fixed = false;
+        this.velocity = new Vector2D(0, 0);
+        this.newVelocity = this.velocity;
+        this.collidingWith = [];
     }
     changeColor(color) {
         for (let x = 0; x < this.points.length; x++) {

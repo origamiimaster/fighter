@@ -4,16 +4,26 @@ import { Vector2D } from "./vector2d.js"
 import { CircleCollider, CollisionObject } from "./collision.js"
 class Object2D {
     collider: CollisionObject
+    collidingWith: Array<Object2D>
     isColliding: boolean
     type: string
     width: number
     height: number
     x: number
     y: number
+    velocity: Vector2D
+    newVelocity: Vector2D
+    mass: number
+    fixed: boolean
     points: Array<Array<RGBA>> = []
     constructor() {
         this.x = 0
         this.y = 0
+        this.mass = 1
+        this.fixed = false
+        this.velocity = new Vector2D(0, 0)
+        this.newVelocity = this.velocity
+        this.collidingWith = []
     }
     changeColor(color: RGBA) {
         for (let x = 0; x < this.points.length; x++) {
