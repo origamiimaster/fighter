@@ -47,4 +47,9 @@ class Polygon{
     
 }
 
-export { Object2D }
+interface Hitbox extends Object2D{
+    knockback: Vector2D
+    stunDuration: number
+}
+
+export { Object2D, Hitbox }

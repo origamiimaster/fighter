@@ -147,7 +147,9 @@ function calculateLaunchAngle(position1: Vector2D, velocity1: Vector2D, position
     return direction
 }
 
-
+class ArcadePhysicsScene extends Scene{
+    
+}
 
 class GravityScene extends PhysicsScene {
     gravity: number

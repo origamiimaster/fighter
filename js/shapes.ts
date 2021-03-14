@@ -1,6 +1,7 @@
 import { CircleCollider, CompoundCollider, RectangleCollider } from "./collision.js"
-import { Object2D } from "./object2d.js"
+import { Object2D, Hitbox } from "./object2d.js"
 import { RGBA } from "./renderer.js"
+import { Vector2D } from "./vector2d.js"
 
 class Rectangle extends Object2D {
     collider: RectangleCollider
@@ -94,4 +95,24 @@ class CompoundShape extends Object2D {
     }
 }
 
-export { Rectangle, Circle,CompoundShape }
+class CircleHitBox extends Circle implements Hitbox{
+    knockback: Vector2D
+    stunDuration: number
+    constructor(r: number, knockback: Vector2D, stunDuration: number){
+        super(r)
+        this.knockback = knockback
+        this.stunDuration = stunDuration
+    }
+}
+
+class RectangleHitbox extends Rectangle implements Hitbox{
+    knockback: Vector2D
+    stunDuration: number
+    constructor(width: number, height: number, knockback: Vector2D, stunDuration: number) {
+        super(width, height)
+        this.knockback = knockback
+        this.stunDuration = stunDuration
+    }
+}
+
+export { Rectangle, Circle, CompoundShape, CircleHitBox, RectangleHitbox }
