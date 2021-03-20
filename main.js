@@ -10,33 +10,6 @@ let scene = new ArcadePhysicsScene(document.getElementById('test'))
 let controls1 = new ArrowController()
 let controls2 = new WASDController()
 
-// let blob_idle_hit = new CircleHitBox(20, new Vector2D(1, 0), 2.0)
-// blob_idle_hit.changeColor(new RGBA(255, 0, 0, 0.5))
-// let blob_idle_hurt = new RectangleHurtBox(30, 30)
-// blob_idle_hurt.changeColor(new RGBA(0, 255, 0, 0.5))
-// blob_idle_hurt.x += 5
-// blob_idle_hurt.y += 5
-// // blob_idle_hit.knockback = new 
-// let blob_appearance = new Rectangle(25, 25)
-// blob_appearance.x += 7.5
-// blob_appearance.y += 7.5
-// blob_appearance.changeColor(new RGBA(0, 0, 255, 1))
-// let blob_pose = new Pose([blob_idle_hit], [blob_idle_hurt], [blob_appearance])
-// let blob = new Character("blob", controls2)
-
-
-// blob.addPose(blob_pose)
-// blob.setX(50)
-// blob.changePose()
-// scene.addCharacter(blob)
-// let test2 = new Character("testing", controls1)
-// test2.addPose(new Pose([], [new Rectangle(20, 20)], [new Rectangle(20, 20)]))
-// test2.changePose()
-// test2.setY(100)
-// scene.addCharacter(test2)
-// scene.update()
-
-
 let idleAnimation = new Animation('idle')
 for (let i = 0; i < 5; i++){
     let rect1 = new Rectangle(10, 10)
@@ -68,7 +41,21 @@ for (let i = 0; i < 10; i++){
     attackAnimation.addPose(frame)
 }
 //move
-for (let i = 0; i < 3; i++){
+for (let i = 0; i < 7; i++){
+    let rect1 = new Rectangle(5, 5)
+    rect1.x -= i
+    rect1.y += 2
+    rect1.changeColor(new RGBA(255,0,0,1))
+    let rect2 = new RectangleHitbox(5,5, new Vector2D(-1, 0), 0)
+    rect2.x -= i
+    rect2.y += 2
+    rect2.changeColor(new RGBA(255,0,0,1))
+    let rect3 = new Rectangle(10, 10)
+    rect3.changeColor(new RGBA(255, 255-180, 0, 1))
+    let frame = new Pose([rect2],[],[rect1, rect3])
+    attackAnimation.addPose(frame)
+}
+for (let i = 7; i > 0; i--){
     let rect1 = new Rectangle(5, 5)
     rect1.x -= i
     rect1.y += 2

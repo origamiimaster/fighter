@@ -1,0 +1,32 @@
+{
+    "name": "example name",
+    "meta_info": "",
+    "animations": {
+        "idle": {
+            "poses": [
+                {
+                    "hitboxes": [
+                        {
+                            "type": "rectangle/circle",
+                            "height": 10,
+                            "width": 10,
+                            "radius": 5,
+                            "x": 1,
+                            "y": 1,
+                            "knockback": {
+                                "x": 0,
+                                "y": 0
+                            },
+                            "stun": 1
+                        }
+                    ],
+                    "hurtboxes": [],
+                    "appearance": []
+                },
+                {}
+            ]
+        },
+        "normal": {},
+        "special": {}
+    }
+}

@@ -104,4 +104,10 @@ class CircleHurtBox extends Circle {
 }
 class RectangleHurtBox extends Rectangle {
 }
+// class RotatedRectangle extends Rectangle{
+//     constructor(width: number, height: number, angle: number){
+//         super(width, height)
+//         this.points = []
+//     }
+// }
 export { Rectangle, Circle, CompoundShape, CircleHitBox, RectangleHitbox, CircleHurtBox, RectangleHurtBox };

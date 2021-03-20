@@ -338,7 +338,6 @@ class WASDController implements Controller {
     }
 }
 
-export { Pose, ArrowController, WASDController, Character, Animation }
 function isHitCircle(object: Hitbox): object is CircleHitBox {
     return object.type === "circle"
 }
@@ -357,3 +356,5 @@ function isCircle(object: Object2D): object is Circle {
 function isRect(object: Object2D): object is Rectangle {
     return object.type === "rectangle"
 }
+
+export { Pose, ArrowController, WASDController, Character, Animation }
