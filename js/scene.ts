@@ -1,7 +1,9 @@
 import { Renderer, RGBA } from "./renderer.js"
-import { Object2D } from "./object2d.js"
+import { Hitbox, Hurtbox, Object2D } from "./object2d.js"
 import { Vector2D } from "./vector2d.js";
-import { dir } from "console";
+import { Character } from "./character.js";
+import { Circle, Rectangle } from "./shapes.js";
+
 class Scene {
     renderer: Renderer;
     location: HTMLElement;
@@ -12,6 +14,9 @@ class Scene {
     objects: Array<Object2D> = []
     add(object: Object2D) {
         this.objects.push(object)
+    }
+    remove(object: Object2D) {
+        this.objects = this.objects.filter(obj => obj != object)
     }
     doCollision() {
         this.objects.forEach(object => {
@@ -28,7 +33,6 @@ class Scene {
         }
     }
     drawCollision() {
-        this.renderer.clear()
         this.objects.forEach(object => {
             if (object.isColliding) {
                 object.changeColor(new RGBA(255, 0, 0, 1))
@@ -38,11 +42,15 @@ class Scene {
         })
     }
     draw(): void {
+        this.renderer.clear()
         this.doCollision()
         this.drawCollision()
         this.objects.forEach((object) => {
             this.renderer.draw(object)
         })
+    }
+    drawObject(object: Object2D) {
+        this.renderer.draw(object)
     }
     update() {
         this.objects.forEach((object: Object2D) => {
@@ -96,7 +104,6 @@ class PhysicsScene extends Scene {
                     collision_object_velocities.push(otherObject.velocity)
                     totalOtherMass += otherObject.mass
                 })
-                let avgMass = totalOtherMass / object.collidingWith.length
                 let averagePos: Vector2D = collision_object_positions.reduce((accumulator: Vector2D, currentValue: Vector2D) => { return accumulator.plus(currentValue) })
                 averagePos = averagePos.multiply(1 / collision_object_positions.length)
                 let averageVel: Vector2D = collision_object_velocities.reduce((accumulator: Vector2D, currentValue: Vector2D) => { return accumulator.plus(currentValue) })
@@ -105,10 +112,8 @@ class PhysicsScene extends Scene {
                 let collisionNormUnit = calculateLaunchAngle(new Vector2D(object.x, object.y), object.velocity, averagePos, averageVel)
                 // let m1 = object.mass
                 let vel1 = object.velocity
-                let vel1Mag = object.velocity.magnitude()
                 // let m2 = avgMass
                 let vel2 = averageVel
-                let vel2Mag = averageVel.magnitude()
                 let relVel = vel1.subtract(vel2)
                 let speed = relVel.x * collisionNormUnit.x + relVel.y * collisionNormUnit.y
                 console.log(object.velocity)
@@ -125,7 +130,7 @@ class PhysicsScene extends Scene {
                 console.log(averageVel)
             }
             this.objects.forEach(object => {
-                
+
                 // console.log(object.newVelocity)
                 object.velocity = object.newVelocity
                 object.x += object.velocity.x
@@ -136,7 +141,6 @@ class PhysicsScene extends Scene {
         this.draw()
     }
 }
-
 function calculateLaunchAngle(position1: Vector2D, velocity1: Vector2D, position2: Vector2D, velocity2: Vector2D) {
     // get line between the two: 
     let line = [position1, position2]
@@ -146,11 +150,6 @@ function calculateLaunchAngle(position1: Vector2D, velocity1: Vector2D, position
     let direction = line[0].subtract(line[1]).unit()
     return direction
 }
-
-class ArcadePhysicsScene extends Scene{
-    
-}
-
 class GravityScene extends PhysicsScene {
     gravity: number
     constructor(location: HTMLElement, gravity: number) {
@@ -164,4 +163,64 @@ class GravityScene extends PhysicsScene {
         super.update()
     }
 }
-export { Scene, PhysicsScene, GravityScene }
+class ArcadePhysicsScene extends Scene {
+    characters: Array<Character>
+    constructor(location: HTMLElement) {
+        super(location)
+        this.characters = []
+    }
+    addCharacter(character: Character) {
+        this.characters.push(character)
+    }
+    draw() {
+        this.characters.forEach(character => {
+            character.draw(this)
+        })
+    }
+    update() {
+        this.characters.forEach((character: Character) => {
+            character.update()
+            // character.changePose()  
+
+        })
+        this.doCollision()
+        this.characters.forEach((character: Character) => {
+            if (character.stunDuration <= 0){
+                // console.log(character.velocity.x + character.x)
+                character.setX(character.velocity.x + character.x)
+                character.setY(character.velocity.y + character.y)
+            } 
+        })
+        this.renderer.render()
+        this.renderer.clear()
+        this.draw()
+
+    }
+    doCollision() {
+        this.characters.forEach((character: Character) => {
+            character.hurtboxes.forEach((hurtbox) => {
+                this.characters.forEach((otherCharacter: Character) => {
+                    if (character === otherCharacter){
+                        
+                    } else{
+                        otherCharacter.hitboxes.forEach((hitbox: Hitbox) => {
+                            if (hurtbox.collider.collisionDetection(hitbox)) {
+                                console.log("hit")
+                                character.velocity.add(hitbox.knockback)
+                                if (character.stunDuration > 0){
+                                    character.stunDuration -= 1.0
+                                } else {
+                                    character.stunDuration += hitbox.stunDuration
+                                }
+                            }
+                        })    
+                    }
+                })
+            })
+        })
+    }
+}
+
+
+
+export { Scene, PhysicsScene, GravityScene, ArcadePhysicsScene }

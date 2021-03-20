@@ -1,5 +1,5 @@
 import { CircleCollider, CompoundCollider, RectangleCollider } from "./collision.js"
-import { Object2D, Hitbox } from "./object2d.js"
+import { Object2D, Hitbox, Hurtbox } from "./object2d.js"
 import { RGBA } from "./renderer.js"
 import { Vector2D } from "./vector2d.js"
 
@@ -18,7 +18,7 @@ class Rectangle extends Object2D {
             }
         }
     }
-    toString(){
+    toString() {
         return `R:${this.x},${this.y},${this.width},${this.height}`
     }
 }
@@ -43,7 +43,7 @@ class Circle extends Object2D {
             }
         }
     }
-    toString(){
+    toString() {
         return `C:${this.x},${this.y},${this.radius}`
     }
 }
@@ -53,11 +53,11 @@ class CompoundShape extends Object2D {
         super()
         this.height = 0
         this.width = 0
-        
-        this.width = Math.max(...shapes.map(elem => elem[0].width + elem[1])) - Math.min(...shapes.map(elem=>elem[1]))
-        this.height = Math.max(...shapes.map(elem => elem[0].height + elem[2])) - Math.min(...shapes.map(elem=>elem[2]))
+
+        this.width = Math.max(...shapes.map(elem => elem[0].width + elem[1])) - Math.min(...shapes.map(elem => elem[1]))
+        this.height = Math.max(...shapes.map(elem => elem[0].height + elem[2])) - Math.min(...shapes.map(elem => elem[2]))
         console.log(this.width, this.height)
-        
+
         for (let i = 0; i < this.width; i++) {
             this.points[i] = []
             for (let j = 0; j < this.height; j++) {
@@ -68,16 +68,13 @@ class CompoundShape extends Object2D {
             let shape = thing[0]
             let x = thing[1]
             let y = thing[2]
-            for (let i = 0; i < shape.points.length; i++) {
-                for (let j = 0; j < shape.points[i].length; j++) {
-                    let point = shape.points[i][j]
-                    if (point.a == 0){
+            for (let i = 0; i < shape.getPoints().length; i++) {
+                for (let j = 0; j < shape.getPoints()[i].length; j++) {
+                    let point = shape.getPoints()[i][j]
+                    if (point.a == 0) {
                         continue
                     } else {
-                        // if(0 <= i+x && i+x < this.width
-                        // && 0 <= j+y && j+x < this.height){
-                            this.points[i+x][j+y].set(point)
-                        // }
+                        this.points[i + x][j + y].set(point)
                     }
                 }
             }
@@ -87,25 +84,25 @@ class CompoundShape extends Object2D {
         })
         this.collider = new CompoundCollider(this)
     }
-    toString(){
+    toString() {
         let result = `A:${this.x},${this.y};`
-        this.objects.forEach(object=>{
+        this.objects.forEach(object => {
             result += object.toString() + ";"
         })
     }
 }
 
-class CircleHitBox extends Circle implements Hitbox{
+class CircleHitBox extends Circle implements Hitbox {
     knockback: Vector2D
     stunDuration: number
-    constructor(r: number, knockback: Vector2D, stunDuration: number){
+    constructor(r: number, knockback: Vector2D, stunDuration: number) {
         super(r)
         this.knockback = knockback
         this.stunDuration = stunDuration
     }
 }
 
-class RectangleHitbox extends Rectangle implements Hitbox{
+class RectangleHitbox extends Rectangle implements Hitbox {
     knockback: Vector2D
     stunDuration: number
     constructor(width: number, height: number, knockback: Vector2D, stunDuration: number) {
@@ -114,5 +111,11 @@ class RectangleHitbox extends Rectangle implements Hitbox{
         this.stunDuration = stunDuration
     }
 }
+class CircleHurtBox extends Circle implements Hurtbox{
 
-export { Rectangle, Circle, CompoundShape, CircleHitBox, RectangleHitbox }
+}
+class RectangleHurtBox extends Rectangle implements Hurtbox{
+
+}
+
+export { Rectangle, Circle, CompoundShape, CircleHitBox, RectangleHitbox, CircleHurtBox, RectangleHurtBox }

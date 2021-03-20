@@ -62,17 +62,14 @@ class CompoundShape extends Object2D {
             let shape = thing[0];
             let x = thing[1];
             let y = thing[2];
-            for (let i = 0; i < shape.points.length; i++) {
-                for (let j = 0; j < shape.points[i].length; j++) {
-                    let point = shape.points[i][j];
+            for (let i = 0; i < shape.getPoints().length; i++) {
+                for (let j = 0; j < shape.getPoints()[i].length; j++) {
+                    let point = shape.getPoints()[i][j];
                     if (point.a == 0) {
                         continue;
                     }
                     else {
-                        // if(0 <= i+x && i+x < this.width
-                        // && 0 <= j+y && j+x < this.height){
                         this.points[i + x][j + y].set(point);
-                        // }
                     }
                 }
             }
@@ -89,4 +86,22 @@ class CompoundShape extends Object2D {
         });
     }
 }
-export { Rectangle, Circle, CompoundShape };
+class CircleHitBox extends Circle {
+    constructor(r, knockback, stunDuration) {
+        super(r);
+        this.knockback = knockback;
+        this.stunDuration = stunDuration;
+    }
+}
+class RectangleHitbox extends Rectangle {
+    constructor(width, height, knockback, stunDuration) {
+        super(width, height);
+        this.knockback = knockback;
+        this.stunDuration = stunDuration;
+    }
+}
+class CircleHurtBox extends Circle {
+}
+class RectangleHurtBox extends Rectangle {
+}
+export { Rectangle, Circle, CompoundShape, CircleHitBox, RectangleHitbox, CircleHurtBox, RectangleHurtBox };

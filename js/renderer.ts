@@ -99,9 +99,9 @@ class Screen {
     draw(object: Object2D) {
         for (let x_scene = object.x, x_object = 0; x_scene < this.width && x_object < object.width; x_object++, x_scene++) {
             for (let y_scene = object.y, y_object = 0;y_scene < this.height && y_object < object.height; y_object++, y_scene++) {
-                if (0 <= x_scene && 0 <= x_object  && 0 <= y_scene && 0 <= y_object && object.points[x_object][y_object].a != 0){
+                if (0 <= x_scene && 0 <= x_object  && 0 <= y_scene && 0 <= y_object && object.getPoints()[x_object][y_object].a != 0){
                     try{
-                        this.self[Math.floor(x_scene)][Math.floor(y_scene)].write(object.points[x_object][y_object])
+                        this.self[Math.floor(x_scene)][Math.floor(y_scene)].write(object.getPoints()[x_object][y_object])
                     } catch(e){
                         console.log(e)
                         console.log(Math.floor(x_scene))

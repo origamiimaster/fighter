@@ -2,6 +2,7 @@ import { Line, LineSegment } from "./line2d.js"
 import { RGBA } from "./renderer.js"
 import { Vector2D } from "./vector2d.js"
 import { CircleCollider, CollisionObject } from "./collision.js"
+import { Scene } from "./scene.js"
 class Object2D {
     collider: CollisionObject
     collidingWith: Array<Object2D>
@@ -34,6 +35,16 @@ class Object2D {
             }
         }
     }
+    getPoints(){
+        return this.points
+    }
+    draw(scene:Scene){
+        scene.drawObject(this)
+    }
+    getColor(){
+        return this.points[0][0]
+    }
+    
 }
 class Polygon{
     vertices: Array<Vector2D>
@@ -52,4 +63,6 @@ interface Hitbox extends Object2D{
     stunDuration: number
 }
 
-export { Object2D, Hitbox }
+interface Hurtbox extends Object2D{
+}
+export { Object2D, Hitbox, Hurtbox }

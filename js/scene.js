@@ -9,6 +9,9 @@ class Scene {
     add(object) {
         this.objects.push(object);
     }
+    remove(object) {
+        this.objects = this.objects.filter(obj => obj != object);
+    }
     doCollision() {
         this.objects.forEach(object => {
             object.isColliding = false;
@@ -23,7 +26,6 @@ class Scene {
         }
     }
     drawCollision() {
-        this.renderer.clear();
         this.objects.forEach(object => {
             if (object.isColliding) {
                 object.changeColor(new RGBA(255, 0, 0, 1));
@@ -34,11 +36,15 @@ class Scene {
         });
     }
     draw() {
+        this.renderer.clear();
         this.doCollision();
         this.drawCollision();
         this.objects.forEach((object) => {
             this.renderer.draw(object);
         });
+    }
+    drawObject(object) {
+        this.renderer.draw(object);
     }
     update() {
         this.objects.forEach((object) => {
@@ -94,7 +100,6 @@ class PhysicsScene extends Scene {
                     collision_object_velocities.push(otherObject.velocity);
                     totalOtherMass += otherObject.mass;
                 });
-                let avgMass = totalOtherMass / object.collidingWith.length;
                 let averagePos = collision_object_positions.reduce((accumulator, currentValue) => { return accumulator.plus(currentValue); });
                 averagePos = averagePos.multiply(1 / collision_object_positions.length);
                 let averageVel = collision_object_velocities.reduce((accumulator, currentValue) => { return accumulator.plus(currentValue); });
@@ -103,10 +108,8 @@ class PhysicsScene extends Scene {
                 let collisionNormUnit = calculateLaunchAngle(new Vector2D(object.x, object.y), object.velocity, averagePos, averageVel);
                 // let m1 = object.mass
                 let vel1 = object.velocity;
-                let vel1Mag = object.velocity.magnitude();
                 // let m2 = avgMass
                 let vel2 = averageVel;
-                let vel2Mag = averageVel.magnitude();
                 let relVel = vel1.subtract(vel2);
                 let speed = relVel.x * collisionNormUnit.x + relVel.y * collisionNormUnit.y;
                 console.log(object.velocity);
@@ -155,4 +158,59 @@ class GravityScene extends PhysicsScene {
         super.update();
     }
 }
-export { Scene, PhysicsScene, GravityScene };
+class ArcadePhysicsScene extends Scene {
+    constructor(location) {
+        super(location);
+        this.characters = [];
+    }
+    addCharacter(character) {
+        this.characters.push(character);
+    }
+    draw() {
+        this.characters.forEach(character => {
+            character.draw(this);
+        });
+    }
+    update() {
+        this.characters.forEach((character) => {
+            character.update();
+            // character.changePose()  
+        });
+        this.doCollision();
+        this.characters.forEach((character) => {
+            if (character.stunDuration <= 0) {
+                // console.log(character.velocity.x + character.x)
+                character.setX(character.velocity.x + character.x);
+                character.setY(character.velocity.y + character.y);
+            }
+        });
+        this.renderer.render();
+        this.renderer.clear();
+        this.draw();
+    }
+    doCollision() {
+        this.characters.forEach((character) => {
+            character.hurtboxes.forEach((hurtbox) => {
+                this.characters.forEach((otherCharacter) => {
+                    if (character === otherCharacter) {
+                    }
+                    else {
+                        otherCharacter.hitboxes.forEach((hitbox) => {
+                            if (hurtbox.collider.collisionDetection(hitbox)) {
+                                console.log("hit");
+                                character.velocity.add(hitbox.knockback);
+                                if (character.stunDuration > 0) {
+                                    character.stunDuration -= 1.0;
+                                }
+                                else {
+                                    character.stunDuration += hitbox.stunDuration;
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    }
+}
+export { Scene, PhysicsScene, GravityScene, ArcadePhysicsScene };

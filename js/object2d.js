@@ -20,6 +20,15 @@ class Object2D {
             }
         }
     }
+    getPoints() {
+        return this.points;
+    }
+    draw(scene) {
+        scene.drawObject(this);
+    }
+    getColor() {
+        return this.points[0][0];
+    }
 }
 class Polygon {
     constructor(points) {
