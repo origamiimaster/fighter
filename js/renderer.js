@@ -97,10 +97,10 @@ class Screen {
         }
     }
     write(x, y, color) {
-        if (Math.floor(x) < 0 || Math.floor(x) > this.width) {
+        if (Math.floor(x) < 0 || Math.floor(x) >= this.width) {
             return false;
         }
-        if (Math.floor(y) < 0 || Math.floor(y) > this.height)
+        if (Math.floor(y) < 0 || Math.floor(y) >= this.height)
             return false;
         try {
             this.self[Math.floor(x)][Math.floor(y)].write(color);
