@@ -97,6 +97,11 @@ class Screen {
         }
     }
     write(x, y, color) {
+        if (Math.floor(x) < 0 || Math.floor(x) > this.width) {
+            return false;
+        }
+        if (Math.floor(y) < 0 || Math.floor(y) > this.height)
+            return false;
         try {
             this.self[Math.floor(x)][Math.floor(y)].write(color);
         }
@@ -105,10 +110,6 @@ class Screen {
             console.log(Math.floor(x));
             console.log(Math.floor(y));
         }
-        // if (this.self[Math.floor(x)]== undefined ||this.self[Math.floor(x)][Math.floor(y)] == undefined) {
-        // } else {
-        //     this.self[Math.floor(x)][Math.floor(y)].write(color)
-        // }
     }
 }
 export { Renderer, RGBA };
