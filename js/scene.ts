@@ -179,17 +179,16 @@ class ArcadePhysicsScene extends Scene {
     }
     update() {
         this.characters.forEach((character: Character) => {
-            character.update()
-            // character.changePose()  
-
+            character.updateVelocity()
+            character.updateAnimations()
         })
         this.doCollision()
         this.characters.forEach((character: Character) => {
-            if (character.stunDuration <= 0){
-                // console.log(character.velocity.x + character.x)
-                character.setX(character.velocity.x + character.x)
-                character.setY(character.velocity.y + character.y)
-            } 
+            if (character.getBottomY() > 100 && character.velocity.y > 0) {
+                character.velocity.y = 0
+                character.setY(100 - (character.getBottomY() - character.y))
+            }
+            character.updatePosition()
         })
         this.renderer.render()
         this.renderer.clear()
@@ -200,20 +199,20 @@ class ArcadePhysicsScene extends Scene {
         this.characters.forEach((character: Character) => {
             character.hurtboxes.forEach((hurtbox) => {
                 this.characters.forEach((otherCharacter: Character) => {
-                    if (character === otherCharacter){
-                        
-                    } else{
+                    if (character === otherCharacter) {
+
+                    } else {
                         otherCharacter.hitboxes.forEach((hitbox: Hitbox) => {
                             if (hurtbox.collider.collisionDetection(hitbox)) {
                                 console.log("hit")
                                 character.velocity.add(hitbox.knockback)
-                                if (character.stunDuration > 0){
+                                if (character.stunDuration > 0) {
                                     character.stunDuration -= 1.0
                                 } else {
                                     character.stunDuration += hitbox.stunDuration
                                 }
                             }
-                        })    
+                        })
                     }
                 })
             })

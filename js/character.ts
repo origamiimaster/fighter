@@ -17,7 +17,7 @@ class Character {
     maxVel: Vector2D
     currentPose: number
     stunDuration: number
-    animations: Map<string,Animation>
+    animations: Map<string, Animation>
     currentAnimation: string
     constructor(name: string, controller: Controller, idleAnimation: Animation) {
         this.name = name
@@ -39,7 +39,7 @@ class Character {
     setX(x: number) {
         // console.log("character setting x " + x)
         this.x = x
-        this.animations.forEach((value: Animation, key: string)=>{
+        this.animations.forEach((value: Animation, key: string) => {
             value.setX(x)
         })
         // Object.keys(this.animations).forEach((key: string)=>{
@@ -48,9 +48,9 @@ class Character {
     }
     setY(y: number) {
         this.y = y
-        this.animations.forEach((value: Animation, key: string)=>{
+        this.animations.forEach((value: Animation, key: string) => {
             value.setY(y)
-        })    
+        })
     }
     draw(scene: Scene, debug: boolean = false) {
         this.appearance.forEach((object: Object2D) => {
@@ -65,10 +65,10 @@ class Character {
             })
         }
     }
-    addAnimation(animation: Animation, key: string){
+    addAnimation(animation: Animation, key: string) {
         this.animations.set(key, animation)
     }
-    update() {
+    updateVelocity() {
         // console.log(this.velocity.x)
         if (this.controller.left) {
             this.velocity.x -= 1
@@ -100,9 +100,11 @@ class Character {
         // if (this.stunDuration > 0) {
         //     this.stunDuration -= 1
         // }
-        if (this.currentAnimation == "idle"){
+    }
+    updateAnimations() {
+        if (this.currentAnimation == "idle") {
             let cur_animation
-            if (this.controller.normal){
+            if (this.controller.normal) {
                 this.currentAnimation = "normal"
                 cur_animation = this.animations.get("normal")
             } else {
@@ -129,6 +131,18 @@ class Character {
             this.hitboxes = pose.hitboxes
             this.hurtboxes = pose.hurtboxes
         }
+    }
+    updatePosition() {
+        this.setX(this.x + this.velocity.x)
+        this.setY(this.y + this.velocity.y)
+    }
+    getBottomY(): number{
+        let bottomY = this.y
+        this.hurtboxes.forEach((hurtbox: Hurtbox) => {
+            bottomY = /*Math.max(bottomY,*/ hurtbox.y + hurtbox.height/*)*/
+        })
+        // console.log(bottomY)
+        return bottomY
     }
 }
 

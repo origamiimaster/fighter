@@ -49,7 +49,7 @@ class Character {
     addAnimation(animation, key) {
         this.animations.set(key, animation);
     }
-    update() {
+    updateVelocity() {
         // console.log(this.velocity.x)
         if (this.controller.left) {
             this.velocity.x -= 1;
@@ -81,6 +81,8 @@ class Character {
         // if (this.stunDuration > 0) {
         //     this.stunDuration -= 1
         // }
+    }
+    updateAnimations() {
         if (this.currentAnimation == "idle") {
             let cur_animation;
             if (this.controller.normal) {
@@ -112,6 +114,18 @@ class Character {
             this.hitboxes = pose.hitboxes;
             this.hurtboxes = pose.hurtboxes;
         }
+    }
+    updatePosition() {
+        this.setX(this.x + this.velocity.x);
+        this.setY(this.y + this.velocity.y);
+    }
+    getBottomY() {
+        let bottomY = this.y;
+        this.hurtboxes.forEach((hurtbox) => {
+            bottomY = /*Math.max(bottomY,*/ hurtbox.y + hurtbox.height; /*)*/
+        });
+        // console.log(bottomY)
+        return bottomY;
     }
 }
 class Pose {

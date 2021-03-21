@@ -14,7 +14,7 @@ let idleAnimation = new Animation('idle')
 for (let i = 0; i < 5; i++){
     let rect1 = new Rectangle(10, 10)
     rect1.changeColor(new RGBA(255, 255, 0, 1))
-    let frame1 = new Pose([],[],[rect1])    
+    let frame1 = new Pose([],[new Rectangle(10,10)],[rect1])    
     idleAnimation.addPose(frame1)
 }
 for (let i = 0; i < 5; i++){
@@ -22,7 +22,7 @@ for (let i = 0; i < 5; i++){
     rect2.x += 1
     rect2.y += 1
     rect2.changeColor(new RGBA(255, 200, 0, 1))
-    let frame2 = new Pose([],[], [rect2])
+    let frame2 = new Pose([],[new Rectangle(10,10)], [rect2])
     idleAnimation.addPose(frame2)
 }
 let char1 = new Character("char1", controls2, idleAnimation)
@@ -80,6 +80,6 @@ char1.addAnimation(attackAnimation, "normal")
 
 
 let animationIdle = new Animation('idle')
-animationIdle.addPose(new Pose([],[new RectangleHurtBox(10, 10)],[new Circle(10)]))
+animationIdle.addPose(new Pose([],[new RectangleHurtBox(20, 20)],[new Circle(10)]))
 let char2 = new Character("char2", controls1, animationIdle)
 scene.addCharacter(char2)
