@@ -73,10 +73,10 @@ class Character {
         //     this.velocity.y = this.maxVel.y
         // }
         //If near floor, and going towards floor, do not move down anymore
-        // if (this.y + this.velocity.y >= 128){
+        // if (this.y + this.velocity.y >= 100){
         //     console.log("floor:")
         //     this.velocity.y = 0
-        //     this.setY(128)
+        //     this.setY(100)
         // }
         // if (this.stunDuration > 0) {
         //     this.stunDuration -= 1
@@ -284,7 +284,6 @@ class WASDController {
         });
     }
 }
-export { Pose, ArrowController, WASDController, Character, Animation };
 function isHitCircle(object) {
     return object.type === "circle";
 }
@@ -303,3 +302,4 @@ function isCircle(object) {
 function isRect(object) {
     return object.type === "rectangle";
 }
+export { Pose, ArrowController, WASDController, Character, Animation };

@@ -17,6 +17,7 @@ class Object2D {
     mass: number
     fixed: boolean
     points: Array<Array<RGBA>> = []
+    color: RGBA
     constructor() {
         this.x = 0
         this.y = 0
@@ -25,6 +26,7 @@ class Object2D {
         this.velocity = new Vector2D(0, 0)
         this.newVelocity = this.velocity
         this.collidingWith = []
+        this.color = new RGBA(255, 255, 255, 1)
     }
     changeColor(color: RGBA) {
         for (let x = 0; x < this.points.length; x++) {
@@ -35,34 +37,36 @@ class Object2D {
             }
         }
     }
-    getPoints(){
+    getPoints() {
         return this.points
     }
-    draw(scene:Scene){
-        scene.drawObject(this)
+    // draw(scene:Scene){
+    //     scene.drawObject(this)
+    // }
+    getColor() {
+        return this.color
     }
-    getColor(){
-        return this.points[0][0]
+    draw(scene: Scene) {
+
     }
-    
 }
-class Polygon{
+class Polygon {
     vertices: Array<Vector2D>
     sides: Array<LineSegment>
-    constructor(points: Array<Vector2D>){
+    constructor(points: Array<Vector2D>) {
         this.vertices = points
-        for (let i = 0; i < this.vertices.length -1; i++){
-            this.sides.push(new LineSegment(this.vertices[i], this.vertices[i+1]))
+        for (let i = 0; i < this.vertices.length - 1; i++) {
+            this.sides.push(new LineSegment(this.vertices[i], this.vertices[i + 1]))
         }
     }
-    
+
 }
 
-interface Hitbox extends Object2D{
+interface Hitbox extends Object2D {
     knockback: Vector2D
     stunDuration: number
 }
 
-interface Hurtbox extends Object2D{
+interface Hurtbox extends Object2D {
 }
 export { Object2D, Hitbox, Hurtbox }

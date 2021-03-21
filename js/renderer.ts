@@ -62,8 +62,8 @@ class RGBA {
         this.g = Math.min((this.g * (1 - color.a)) + (color.g * color.a), 255)
         this.b = Math.min((this.b * (1 - color.a)) + (color.b * color.a), 255)
     }
-    static random(): RGBA{
-        return new RGBA(Math.floor(Math.random()*255),Math.floor(Math.random()*255),Math.floor(Math.random()*255),1)
+    static random(): RGBA {
+        return new RGBA(Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 1)
     }
 }
 class Screen {
@@ -93,16 +93,16 @@ class Screen {
     set(x: number, y: number, r: number, g: number, b: number, a: number) {
         this.self[x][y].set(new RGBA(r, g, b, a))
     }
-    write(x: number, y: number, r: number, g: number, b: number, a: number) {
-        this.self[x][y].write(new RGBA(r, g, b, a))
-    }
+    // write(x: number, y: number, r: number, g: number, b: number, a: number) {
+    //     this.self[x][y].write(new RGBA(r, g, b, a))
+    // }
     draw(object: Object2D) {
         for (let x_scene = object.x, x_object = 0; x_scene < this.width && x_object < object.width; x_object++, x_scene++) {
-            for (let y_scene = object.y, y_object = 0;y_scene < this.height && y_object < object.height; y_object++, y_scene++) {
-                if (0 <= x_scene && 0 <= x_object  && 0 <= y_scene && 0 <= y_object && object.getPoints()[x_object][y_object].a != 0){
-                    try{
+            for (let y_scene = object.y, y_object = 0; y_scene < this.height && y_object < object.height; y_object++, y_scene++) {
+                if (0 <= x_scene && 0 <= x_object && 0 <= y_scene && 0 <= y_object && object.getPoints()[x_object][y_object].a != 0) {
+                    try {
                         this.self[Math.floor(x_scene)][Math.floor(y_scene)].write(object.getPoints()[x_object][y_object])
-                    } catch(e){
+                    } catch (e) {
                         console.log(e)
                         console.log(Math.floor(x_scene))
                         console.log(Math.floor(y_scene))
@@ -110,6 +110,20 @@ class Screen {
                 }
             }
         }
+    }
+    write(x: number, y: number, color: RGBA) {
+        try {
+            this.self[Math.floor(x)][Math.floor(y)].write(color)
+        } catch (e) {
+            console.log(e)
+            console.log(Math.floor(x))
+            console.log(Math.floor(y))
+        }
+        // if (this.self[Math.floor(x)]== undefined ||this.self[Math.floor(x)][Math.floor(y)] == undefined) {
+
+        // } else {
+        //     this.self[Math.floor(x)][Math.floor(y)].write(color)
+        // }
     }
 }
 export { Renderer, RGBA }

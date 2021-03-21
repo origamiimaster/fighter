@@ -18,6 +18,13 @@ class Rectangle extends Object2D {
     toString() {
         return `R:${this.x},${this.y},${this.width},${this.height}`;
     }
+    draw(scene) {
+        for (let i = this.x; i < this.x + this.width; i++) {
+            for (let j = this.y; j < this.y + this.height; j++) {
+                scene.renderer.screen.write(i, j, this.getColor());
+            }
+        }
+    }
 }
 class Circle extends Object2D {
     constructor(r) {
@@ -41,6 +48,15 @@ class Circle extends Object2D {
     }
     toString() {
         return `C:${this.x},${this.y},${this.radius}`;
+    }
+    draw(scene) {
+        for (let i = this.x; i < this.x + 2 * this.radius; i++) {
+            for (let j = this.y; j < this.y + 2 * this.radius; j++) {
+                if (Math.floor(Math.pow((-this.x + i - this.radius + 0.5), 2) + Math.pow((-this.y + j - this.radius + 0.5), 2)) <= Math.pow(this.radius, 2)) {
+                    scene.renderer.screen.write(i, j, this.color);
+                }
+            }
+        }
     }
 }
 class CompoundShape extends Object2D {
@@ -104,10 +120,4 @@ class CircleHurtBox extends Circle {
 }
 class RectangleHurtBox extends Rectangle {
 }
-// class RotatedRectangle extends Rectangle{
-//     constructor(width: number, height: number, angle: number){
-//         super(width, height)
-//         this.points = []
-//     }
-// }
 export { Rectangle, Circle, CompoundShape, CircleHitBox, RectangleHitbox, CircleHurtBox, RectangleHurtBox };

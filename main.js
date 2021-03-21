@@ -80,6 +80,6 @@ char1.addAnimation(attackAnimation, "normal")
 
 
 let animationIdle = new Animation('idle')
-animationIdle.addPose(new Pose([],[new RectangleHurtBox(10, 10)],[new Rectangle(10, 10)]))
+animationIdle.addPose(new Pose([],[new RectangleHurtBox(10, 10)],[new Circle(10)]))
 let char2 = new Character("char2", controls1, animationIdle)
 scene.addCharacter(char2)

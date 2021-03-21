@@ -1,6 +1,7 @@
 import { CircleCollider, CompoundCollider, RectangleCollider } from "./collision.js"
 import { Object2D, Hitbox, Hurtbox } from "./object2d.js"
 import { RGBA } from "./renderer.js"
+import { Scene } from "./scene.js"
 import { Vector2D } from "./vector2d.js"
 
 class Rectangle extends Object2D {
@@ -20,6 +21,13 @@ class Rectangle extends Object2D {
     }
     toString() {
         return `R:${this.x},${this.y},${this.width},${this.height}`
+    }
+    draw(scene: Scene) {
+        for (let i = this.x; i < this.x + this.width; i++) {
+            for (let j = this.y; j < this.y + this.height; j++) {
+                scene.renderer.screen.write(i, j, this.getColor())
+            }
+        }
     }
 }
 class Circle extends Object2D {
@@ -45,6 +53,15 @@ class Circle extends Object2D {
     }
     toString() {
         return `C:${this.x},${this.y},${this.radius}`
+    }
+    draw(scene: Scene) {
+        for (let i = this.x; i < this.x + 2 * this.radius; i++) {
+            for (let j = this.y; j < this.y + 2 * this.radius; j++) {
+                if (Math.floor((- this.x + i - this.radius + 0.5) ** 2 + (- this.y + j - this.radius + 0.5) ** 2) <= this.radius ** 2) {
+                    scene.renderer.screen.write(i, j, this.color)
+                }
+            }
+        }
     }
 }
 class CompoundShape extends Object2D {
@@ -111,10 +128,10 @@ class RectangleHitbox extends Rectangle implements Hitbox {
         this.stunDuration = stunDuration
     }
 }
-class CircleHurtBox extends Circle implements Hurtbox{
+class CircleHurtBox extends Circle implements Hurtbox {
 
 }
-class RectangleHurtBox extends Rectangle implements Hurtbox{
+class RectangleHurtBox extends Rectangle implements Hurtbox {
 
 }
 

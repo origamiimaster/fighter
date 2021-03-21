@@ -1,4 +1,5 @@
 import { LineSegment } from "./line2d.js";
+import { RGBA } from "./renderer.js";
 import { Vector2D } from "./vector2d.js";
 class Object2D {
     constructor() {
@@ -10,6 +11,7 @@ class Object2D {
         this.velocity = new Vector2D(0, 0);
         this.newVelocity = this.velocity;
         this.collidingWith = [];
+        this.color = new RGBA(255, 255, 255, 1);
     }
     changeColor(color) {
         for (let x = 0; x < this.points.length; x++) {
@@ -23,11 +25,13 @@ class Object2D {
     getPoints() {
         return this.points;
     }
-    draw(scene) {
-        scene.drawObject(this);
-    }
+    // draw(scene:Scene){
+    //     scene.drawObject(this)
+    // }
     getColor() {
-        return this.points[0][0];
+        return this.color;
+    }
+    draw(scene) {
     }
 }
 class Polygon {
