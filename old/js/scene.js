@@ -176,9 +176,10 @@ class ArcadePhysicsScene extends Scene {
             character.updateVelocity();
             character.updateAnimations();
         });
+        this.applyGravity();
         this.doCollision();
         this.characters.forEach((character) => {
-            if (character.getBottomY() > 100 && character.velocity.y > 0) {
+            if (character.getBottomY() + character.velocity.y > 100 && character.velocity.y > 0) {
                 character.velocity.y = 0;
                 character.setY(100 - (character.getBottomY() - character.y));
             }
@@ -187,6 +188,11 @@ class ArcadePhysicsScene extends Scene {
         this.renderer.render();
         this.renderer.clear();
         this.draw();
+    }
+    applyGravity() {
+        this.characters.forEach((character) => {
+            character.velocity.y += 0.5;
+        });
     }
     doCollision() {
         this.characters.forEach((character) => {

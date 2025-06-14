@@ -100,4 +100,17 @@ class CompoundCollider extends Object2D implements CollisionObject {
     }
 }
 
+
+function doLinesIntersect(a: number, b: number, c: number, d: number){
+    return true
+}
+function lineCollision(a: number, b: number, c: number, d: number){
+    //returns the point where they intersect
+    if (!doLinesIntersect(a,b,c,d)){
+        
+    } else {
+        
+    }
+}
+
 export { RectangleCollider, CircleCollider, CollisionObject, CompoundCollider }
